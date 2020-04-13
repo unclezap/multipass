@@ -9,8 +9,7 @@ class QuestionsController < ApplicationController
     end
 
     def show
-        # byebug
-        question = Question.find_by(quiz_id: question_params(:quiz_id))
+        question = Question.all.select{|question| question.quiz_id == params[:id].to_i}
         render json: question
     end
 

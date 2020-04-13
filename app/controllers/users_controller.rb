@@ -1,13 +1,15 @@
 class UsersController < ApplicationController
+    skip_before_action :authorized, only: [:create]
+
     def create
         user = User.create(user_params)
 
         #if//else on authentication
 
         if user.valid?
-            render json: user
+            render json: { user: user, jwt: @token}, status: :created
         else
-            #render json error messages
+            render json: {error: 'Failed to make a new account. You might have the same name as someone else, try to be more creative!'}, status: :not_acceptable
         end
     end
 
@@ -34,6 +36,6 @@ class UsersController < ApplicationController
 
     private
         def user_params
-            params.require(:user).permit(:name, :id)
+            params.require(:user).permit(:name, :password, :id)
         end
 end
