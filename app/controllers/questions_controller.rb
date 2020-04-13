@@ -9,7 +9,8 @@ class QuestionsController < ApplicationController
     end
 
     def show
-        question = Question.find_by(id: question_params(:id))
+        # byebug
+        question = Question.find_by(quiz_id: question_params(:quiz_id))
         render json: question
     end
 
