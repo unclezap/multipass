@@ -17,9 +17,9 @@ joe = User.create(name: "Joe")
 chris = User.create(name: "Chris")
 jack = User.create(name: "Jack")
 
-mtg = Quiz.create(description: "All things Magic", user_id: joe.id, category: "Nerds", private: false)
-birds = Quiz.create(description: "Some birds are cool", user_id: chris.id, category: "Nature", private: false)
-instructor_dogs = Quiz.create(description: "Match the dog to the instructor", user_id: zeb.id, category: "Nature", private: true)
+mtg = Quiz.create(title: "Magic Quiz", description: "All things Magic", user_id: joe.id, category: "Nerds", private: false)
+birds = Quiz.create(title: "Bird Quiz!", description: "Some birds are cool", user_id: chris.id, category: "Nature", private: false)
+instructor_dogs = Quiz.create(title: "Do You Know All Your Instructors' Cute Dogs???", description: "Match the dog to the instructor", user_id: zeb.id, category: "Nature", private: true)
 
 ulamog = Question.create(question_text: "What set is Ulamog from?", quiz_id: mtg.id)
 quail = Question.create(question_text: "Where does the California Quail live?", quiz_id: birds.id)
