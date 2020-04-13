@@ -1,4 +1,10 @@
 class QuizzesController < ApplicationController
+
+    def index
+        quizzes = Quiz.all
+        render json: quizzes
+    end
+    
     def create
         quiz = Quiz.create(quiz_params)
         if quiz.valid?
