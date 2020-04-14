@@ -41,3 +41,6 @@ wrongp = Answer.create(question_id: paprika.id, correct: false, answer_text: "Ja
 test_score = UserScore.create(user_id: jack.id, quiz_id: instructor_dogs.id, score: 1)
 
 
+
+
+
