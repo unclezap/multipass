@@ -5,7 +5,7 @@ class UsersController < ApplicationController
         user = User.create(user_params)
 
         #if//else on authentication
-
+        byebug
         if user.valid?
             render json: { user: user, jwt: @token}, status: :created
         else
