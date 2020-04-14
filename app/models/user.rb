@@ -4,5 +4,5 @@ class User < ApplicationRecord
     has_many :quizzes, through: :user_scores
 
     has_secure_password
-    validates :username, uniqueness {case_sensitive: false}
+    validates :username, uniqueness: {case_sensitive: false}
 end
