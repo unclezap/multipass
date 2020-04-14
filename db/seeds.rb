@@ -12,10 +12,10 @@ Quiz.delete_all
 UserScore.delete_all
 User.delete_all
 
-zeb = User.create(name: "Zeb")
-joe = User.create(name: "Joe")
-chris = User.create(name: "Chris")
-jack = User.create(name: "Jack")
+zeb = User.create(username: "Zeb", password: "zeb")
+joe = User.create(username: "Joe", password: "joe")
+chris = User.create(username: "Chris", password: "christ")
+jack = User.create(username: "Jack", password: "jake")
 
 mtg = Quiz.create(title: "Magic Quiz", description: "All things Magic", user_id: joe.id, category: "Nerds", private: false)
 birds = Quiz.create(title: "Bird Quiz!", description: "Some birds are cool", user_id: chris.id, category: "Nature", private: false)
