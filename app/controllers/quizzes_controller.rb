@@ -24,25 +24,17 @@ class QuizzesController < ApplicationController
         questions = Question.all.select{|question| question.quiz_id == params[:id].to_i}
         qobj = {} 
         questions.each do |question| 
+            answer_array = []
+            qobj[question.question_text] = answer_array
             answers = Answer.all.select{|answer| answer.question_id == question.id}
-            qobj[question.id] = answers
-            #qobj[question.id]["text"] = question.question_text
+            answers.each do |answer|
+                answer_array.push(answer)
+            end
         end
-        
         data = {
             quiz: quiz,
-            questions: questions 
+            questions: qobj 
         }
-
-        # data = {
-        #     quiz: quiz,
-        #     questions: {
-        #         text_of_question: [
-        #             answer_1,
-        #             answer2
-        #         ]
-        #     }
-        # }
 
         render json: data
     end
