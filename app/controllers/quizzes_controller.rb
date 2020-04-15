@@ -1,5 +1,5 @@
 class QuizzesController < ApplicationController
-    skip_before_action :authorized, only: [:index]
+    skip_before_action :authorized, only: [:index, :show]
     def index
         quizzes = Quiz.all
         render json: quizzes
@@ -19,10 +19,26 @@ class QuizzesController < ApplicationController
         Quiz.delete(quiz)
     end
 
+    # show no longer needs to be authorized.
+    # if quiz is private, a user should be authorized. 
+    # need to add that logic.
     def show
         quiz = Quiz.find_by(id: params[:id])
+
+        #remving some categories for show page.
+        quiz_detail = {
+            category: quiz.category,
+            id: quiz.id,
+            private: quiz.private,
+            title: quiz.title
+        }
+
+        #getting username instead of user_id
+        user = User.find(quiz.user_id)
+
+        #begin structuring our question data.
         questions = Question.all.select{|question| question.quiz_id == params[:id].to_i}
-        qobj = {} 
+        question_detail = {} 
         questions.each do |question| 
             question_hash = {}
             question_hash[:text] = question.question_text
@@ -30,13 +46,22 @@ class QuizzesController < ApplicationController
             question_hash[:answers] = answer_array
             answers = Answer.all.select{|answer| answer.question_id == question.id}
             answers.each do |answer|
-                answer_array.push(answer)
+                #structuring our answer object.
+                answer_detail = {
+                    answer: answer.answer_text,
+                    correct: answer.correct,
+                    answer_id: answer.id,
+                    question_id: answer.question_id
+                }
+                answer_array.push(answer_detail)
             end
-            qobj[question.id] = question_hash
+
+            question_detail[question.id] = question_hash
         end
         data = {
-            quiz: quiz,
-            questions: qobj 
+            quiz: quiz_detail,
+            user: user.username,
+            questions: question_detail
         }
 
         render json: data
