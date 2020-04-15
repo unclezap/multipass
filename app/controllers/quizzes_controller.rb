@@ -1,5 +1,5 @@
 class QuizzesController < ApplicationController
-    skip_before_action :authorized, only: [:index, :show]
+    skip_before_action :authorized, only: [:index]
     def index
         quizzes = Quiz.all
         render json: quizzes
@@ -19,17 +19,37 @@ class QuizzesController < ApplicationController
         Quiz.delete(quiz)
     end
 
-    def show 
+    def show
         quiz = Quiz.find_by(id: params[:id])
-        options = {
-            include: [:questions, :answers]
+        questions = Question.all.select{|question| question.quiz_id == params[:id].to_i}
+        qobj = {} 
+        questions.each do |question| 
+            answers = Answer.all.select{|answer| answer.question_id == question.id}
+            qobj[question.id] = answers
+            #qobj[question.id]["text"] = question.question_text
+        end
+        
+        data = {
+            quiz: quiz,
+            questions: questions 
         }
-        render json: QuizSerializer.new(quiz, options)
+
+        # data = {
+        #     quiz: quiz,
+        #     questions: {
+        #         text_of_question: [
+        #             answer_1,
+        #             answer2
+        #         ]
+        #     }
+        # }
+
+        render json: data
     end
 
     private
         def quiz_params
             params.require(:quiz).permit(:description, :id, :category, :private, :user_id)
         end
-end
+end 
  
