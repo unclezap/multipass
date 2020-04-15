@@ -24,12 +24,15 @@ class QuizzesController < ApplicationController
         questions = Question.all.select{|question| question.quiz_id == params[:id].to_i}
         qobj = {} 
         questions.each do |question| 
+            question_hash = {}
+            question_hash[:text] = question.question_text
             answer_array = []
-            qobj[question.question_text] = answer_array
+            question_hash[:answers] = answer_array
             answers = Answer.all.select{|answer| answer.question_id == question.id}
             answers.each do |answer|
                 answer_array.push(answer)
             end
+            qobj[question.id] = question_hash
         end
         data = {
             quiz: quiz,
