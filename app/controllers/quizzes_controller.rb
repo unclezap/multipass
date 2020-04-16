@@ -42,6 +42,7 @@ class QuizzesController < ApplicationController
         questions.each do |question| 
             question_hash = {}
             question_hash[:text] = question.question_text
+            question_hash[:id] = question.id
             answer_array = []
             question_hash[:answers] = answer_array
             answers = Answer.all.select{|answer| answer.question_id == question.id}
