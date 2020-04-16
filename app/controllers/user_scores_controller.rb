@@ -14,9 +14,16 @@ class UserScoresController < ApplicationController
     end
 
     def by_user
-        user_scores = UserScore.select{|score| score.user_id === 12}
-        #see by_quiz for help
-        render json: user_scores
+        user_scores = UserScore.select{|score| score.user_id === params[:id].to_i}
+        usobj = {}
+        user_scores.each do |this_score|
+            usobj[this_score.id] = {
+                quiz: this_score.quiz,
+                score: this_score.score,
+                date: this_score.created_at.to_date.strftime("%a, %d %b %Y")
+            }
+        end
+        render json: usobj
     end
 
     def by_quiz
