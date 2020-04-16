@@ -38,7 +38,6 @@ class QuizzesController < ApplicationController
     # if quiz is private, a user should be authorized. 
     # need to add that logic.
     def show
-        byebug
         quiz = Quiz.find_by(id: params[:id])
 
         #remving some categories for show page.
