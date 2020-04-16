@@ -38,8 +38,10 @@ wrongb = Answer.create(question_id: beans.id, correct: false, answer_text: "John
 rightp = Answer.create(question_id: paprika.id, correct: true, answer_text: "Jake")
 wrongp = Answer.create(question_id: paprika.id, correct: false, answer_text: "Jack")
 
-test_score = UserScore.create(user_id: jack.id, quiz_id: instructor_dogs.id, score: 1)
-
+test_score1 = UserScore.create(user_id: jack.id, quiz_id: mtg.id, score: 1)
+test_score2 = UserScore.create(user_id: jack.id, quiz_id: birds.id, score: 1)
+test_score3 = UserScore.create(user_id: joe.id, quiz_id: instructor_dogs.id, score: 2)
+test_score4 = UserScore.create(user_id: jack.id, quiz_id: instructor_dogs.id, score: 1)
 
 
 
