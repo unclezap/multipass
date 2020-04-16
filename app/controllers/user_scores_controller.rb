@@ -1,4 +1,6 @@
 class UserScoresController < ApplicationController
+    skip_before_action :authorized, only: [:by_quiz]
+
     def create
         user_score = UserScore.create(user_score_params)
 
@@ -11,9 +13,25 @@ class UserScoresController < ApplicationController
         end
     end
 
-    def show
-        user_score = UserScore.find_by(id: user_score_params(:id))
-        render json: user_score
+    def by_user
+        user_scores = UserScore.select{|score| score.user_id === 12}
+        #see by_quiz for help
+        render json: user_scores
+    end
+
+    def by_quiz
+        user_scores = UserScore.select{|score| score.quiz_id === params[:id].to_i}
+        this_quiz = Quiz.all.find_by(id: params[:id].to_i)
+        usobj = {quiz: this_quiz, user: this_quiz.user.username}
+        scores_obj = {}
+        user_scores.each do |this_score|
+            scores_obj[this_score.id] = {
+                score: this_score.score,
+                user: this_score.user.username
+            }
+        end
+        usobj[:scores] = scores_obj
+        render json: usobj
     end
     
     private
