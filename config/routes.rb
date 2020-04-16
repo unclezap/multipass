@@ -8,5 +8,6 @@ Rails.application.routes.draw do
   get '/current_user', to: 'auth#show'
   get '/user_scores/users/:id', to: "user_scores#by_user"
   get '/user_scores/quizzes/:id', to: "user_scores#by_quiz"
+  get '/popular', to: "quizzes#popular"
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

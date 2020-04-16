@@ -1,8 +1,23 @@
 class QuizzesController < ApplicationController
-    skip_before_action :authorized, only: [:index, :show]
+    skip_before_action :authorized, only: [:index, :show, :popular]
     def index
         quizzes = Quiz.all
         render json: quizzes
+    end
+
+    def popular
+        quizzes = Quiz.all
+        popularity_hash = {}
+        quizzes.each do |quiz|
+            if popularity_hash[quiz.user_scores.length] 
+                by_popularity_array = popularity_hash[quiz.user_scores.length]
+            else
+                by_popularity_array = []
+            end
+            by_popularity_array.push(quiz)
+            popularity_hash[quiz.user_scores.length] = by_popularity_array
+        end
+        render json: popularity_hash
     end
     
     def create
@@ -23,6 +38,7 @@ class QuizzesController < ApplicationController
     # if quiz is private, a user should be authorized. 
     # need to add that logic.
     def show
+        byebug
         quiz = Quiz.find_by(id: params[:id])
 
         #remving some categories for show page.
