@@ -7,7 +7,7 @@ class AuthController < ApplicationController
             token = encode_token({user_id: @user.id})
             render json: {user: @user, jwt: token}, status: :accepted
         else
-            render json: {error: 'The cops are coming for you and your taxi'}, status: :unauthorized
+            render json: {error: 'Bad login information. Usernames are case sensitive.'}, status: :unauthorized
         end
     end
 
