@@ -6,11 +6,32 @@ class QuizzesController < ApplicationController
     end
     
     def create
-        quiz = Quiz.create(quiz_params)
+        cu = current_user.id
+        state_params = {
+            title: params[:quiz][:title], 
+            description: params[:quiz][:description], 
+            category: params[:quiz][:category], 
+            user_id: cu
+        }
+        quiz = Quiz.create(state_params)
         if quiz.valid?
+            create_questions(params[:quiz][:questions], quiz.id)
             render json: quiz
         else
-            #render json error messages
+            render json: {error: 'Something went wrong'}
+        end
+    end
+
+    def create_questions(array, id)
+        array.each do |question|
+            new = Question.create({quiz_id: id, question_text: question[:question_text]})
+            create_answers(question[:answers], new.id)
+        end
+    end
+
+    def create_answers(array, id)
+        array.each do |answer| 
+            Answer.create({question_id: id, answer_text: answer[:answer_text], correct: answer[:correct]})
         end
     end
 
@@ -70,7 +91,7 @@ class QuizzesController < ApplicationController
 
     private
         def quiz_params
-            params.require(:quiz).permit(:description, :id, :category, :private, :user_id)
+            params.require(:quiz).permit(:title, :description, :id, :category, :private, :user_id)
         end
 end 
  
