@@ -3,13 +3,12 @@ class UserScoresController < ApplicationController
 
     def create
         user_score = UserScore.create(user_score_params)
-
-        #authentication if/else statement.
-        
+        user_score.user_id = current_user.id
+        user_score.save
         if user_score.valid?
             render json: user_score
         else
-             #render json error messages
+             render json: {error: "Did not create a new user account!"}
         end
     end
 

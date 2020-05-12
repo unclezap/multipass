@@ -27,7 +27,7 @@ class UsersController < ApplicationController
         if user.valid? 
             render json: user
         else
-            #render json error messages
+            render json: {error: "Failed to update!"}
         end
     end
 
