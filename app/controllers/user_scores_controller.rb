@@ -9,7 +9,7 @@ class UserScoresController < ApplicationController
         if user_score.valid?
             render json: user_score
         else
-             #render json error messages
+             render json: {error: 'Something went wrong'}
         end
     end
 
