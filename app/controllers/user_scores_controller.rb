@@ -8,7 +8,11 @@ class UserScoresController < ApplicationController
         if user_score.valid?
             render json: user_score
         else
+<<<<<<< HEAD
              render json: {error: "Did not create a new user account!"}
+=======
+             render json: {error: 'Something went wrong'}
+>>>>>>> 93a10ef791cd83742ed84c6cccda32acf7105238
         end
     end
 
